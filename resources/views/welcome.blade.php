@@ -10,7 +10,6 @@
 </head>
 <body>
 <div id="app">
-    <div class="bg-red-200">Tailwind instalado</div>
     <c-button></c-button>
 </div>
 </body>
