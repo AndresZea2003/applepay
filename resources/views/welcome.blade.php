@@ -10,8 +10,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-{{--<script src="https://applepay.test/js/app.js"></script>--}}
-
 
 <div id="app">
     <c-button></c-button>
