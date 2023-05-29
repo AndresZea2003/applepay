@@ -1,9 +1,9 @@
 import './bootstrap';
 import {createApp} from "vue/dist/vue.esm-bundler.js";
-import CButton from "./components/CButton.vue";
+import ApplePay from "./components/ApplePay.vue"
 
 createApp({
     components: {
-        'c-button': CButton,
+        'apple-pay': ApplePay,
     }
 }).mount("#app");
