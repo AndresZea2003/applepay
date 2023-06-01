@@ -11,8 +11,8 @@
 </head>
 <body>
 <div id="app">
+    <div>ola</div>
     <apple-pay></apple-pay>
 </div>
-
 </body>
 </html>
