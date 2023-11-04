@@ -7,16 +7,7 @@ import fs from 'fs';
 const host = 'applepay.test';
 
 export default defineConfig({
-    server: {
-        host,
-        hmr: { host },
-        https: {
-            key: fs.readFileSync(`./ssl/key.pem`),
-            cert: fs.readFileSync(`./ssl/cert.pem`),
-        },
-    },
     plugins: [
-        basicSsl(),
         vue(),
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],

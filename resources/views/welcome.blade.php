@@ -11,7 +11,11 @@
 </head>
 <body>
 <div id="app">
-    <div>ola</div>
+    <form action="{{ route('apple') }}" method="post">
+        @csrf
+        <input type="text" name="validationUrl" value="https://apple-pay-gateway.apple.com/paymentservices/startSession" hidden="">
+        <button type="submit">Go</button>
+    </form>
     <apple-pay></apple-pay>
 </div>
 </body>
