@@ -152,26 +152,27 @@ const validateMerchant = (validationUrl) => {
     console.log('La Url de validacion es:', validationUrl)
 
     const data = {
-        domains: ['https://www.example.com', 'https://www.mystore.com'],
-        merchantIdentifier: 'merchant.com.example',
-        websiteDomain: 'example.com',
-        partnerInternalMerchantIdentifier: 'example-123',
-        displayName: 'Example Store',
+        merchantIdentifier: 'merchant.placetopay-test',
+        displayName: 'Test Placetopay',
         validationUrl: validationUrl
     };
 
-    axios.post('https://applepay.test/applepay', data)
+    let urlBase = 'https://applepay.test/api/applepay'
+    console.log(urlBase)
+    axios.post(urlBase, data)
         .then((response) => {
             console.log(response.data);
             console.log('EXITO')
         })
         .catch((error) => {
-            console.log('FALLO')
+            console.log('FALLO', error)
             console.error(error);
         });
 }
 
 function onApplePayButtonClicked() {
+    console.log('Inicia ApplePay!')
+
     if (!ApplePaySession) {
         return;
     }
@@ -214,13 +215,30 @@ function onApplePayButtonClicked() {
 
         // const merchantSession = await validateMerchant("com.placetopay.test");
 
-        console.log('Inicia validacion del comercio', event.validationURL)
+        // console.log('Inicia validacion del comercio', event.validationURL)
+
+        console.log('Inicia Validacion del merchant!')
 
         let validationUrl = event.validationURL
+
         const merchantSession = await validateMerchant(validationUrl)
 
         session.completeMerchantValidation(merchantSession);
     };
+
+    session.onpaymentauthorized = event => {
+        // Define ApplePayPaymentAuthorizationResult
+        const result = {
+            "status": ApplePaySession.STATUS_SUCCESS
+        };
+        session.completePayment(result);
+    };
+
+    session.oncancel = event => {
+        // Payment cancelled by WebKit
+    };
+
+    session.begin();
 
     // session.onpaymentmethodselected = event => {
     //     // Define ApplePayPaymentMethodUpdate based on the selected payment method.
@@ -242,13 +260,7 @@ function onApplePayButtonClicked() {
     //     session.completeShippingContactSelection(update);
     // };
 
-    session.onpaymentauthorized = event => {
-        // Define ApplePayPaymentAuthorizationResult
-        const result = {
-            "status": ApplePaySession.STATUS_SUCCESS
-        };
-        session.completePayment(result);
-    };
+
 
     // session.oncouponcodechanged = event => {
     //     // Define ApplePayCouponCodeUpdate
@@ -265,11 +277,7 @@ function onApplePayButtonClicked() {
     //     });
     // };
 
-    session.oncancel = event => {
-        // Payment cancelled by WebKit
-    };
 
-    session.begin();
 }
 </script>
 

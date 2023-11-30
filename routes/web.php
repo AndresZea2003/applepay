@@ -18,4 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/applepay', [ApplePayController::class, 'appleServer'])->name('apple');
+
