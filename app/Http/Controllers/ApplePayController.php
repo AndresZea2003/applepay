@@ -19,7 +19,7 @@ class ApplePayController extends Controller
                 'cert' => '/Users/andreszea/.config/valet/Certificates/applepay.test.crt', // Ruta al certificado CSR
                 'ssl_key' => '/Users/andreszea/.config/valet/Certificates/applepay.test.key', // Ruta a la llave privada
             ])->post($request->validationUrl . '/paymentSession', [
-                
+
             ]);
 
             return $response;
@@ -150,4 +150,6 @@ class ApplePayController extends Controller
 
         return $merchantSession;
     }
+
+
 }
