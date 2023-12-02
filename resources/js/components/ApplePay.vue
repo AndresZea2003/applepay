@@ -148,7 +148,6 @@ import axios from "axios";
 let idk = ref('vacio')
 
 const validateMerchant = (validationUrl) => {
-
     console.log('La Url de validacion es:', validationUrl)
 
     const data = {
@@ -159,10 +158,11 @@ const validateMerchant = (validationUrl) => {
 
     let urlBase = 'https://applepay.test/api/applepay'
     console.log(urlBase)
-    axios.post(urlBase, data)
+    return axios.post(urlBase, data) // Asegúrate de devolver la promesa aquí
         .then((response) => {
             console.log(response.data);
             console.log('EXITO')
+            return response.data
         })
         .catch((error) => {
             console.log('FALLO', error)
@@ -219,20 +219,58 @@ function onApplePayButtonClicked() {
 
         console.log('Inicia Validacion del merchant!')
 
+        /*
         let validationUrl = event.validationURL
 
         const merchantSession = await validateMerchant(validationUrl)
 
         session.completeMerchantValidation(merchantSession);
+
+         */
+
+        // const merchantSession = await validateMerchant(event.validationURL);
+        // session.completeMerchantValidation(merchantSession);
+
+
+        validateMerchant(event.validationURL, function (merchantSession) {
+            session.completeMerchantValidation(merchantSession);
+        });
     };
 
+
+    session.onpaymentauthorized = function(event) {
+        // Aquí es donde procesarías el pago. Por ejemplo, podrías enviar los detalles del pago a tu servidor para que sean procesados.
+        // Asegúrate de que esta función devuelva una promesa que se resuelva cuando el pago se haya procesado correctamente.
+
+
+        console.log('Nice')
+
+        // let promise = processPayment(event.payment); // Asume que processPayment es tu función que procesa el pago
+        //
+        // promise.then(function(success) {
+        //     if (success) {
+        //         // Si el pago se procesó correctamente, debes llamar a completePayment con ApplePaySession.STATUS_SUCCESS
+        //         session.completePayment(ApplePaySession.STATUS_SUCCESS);
+        //     } else {
+        //         // Si hubo un error al procesar el pago, debes llamar a completePayment con ApplePaySession.STATUS_FAILURE
+        //         session.completePayment(ApplePaySession.STATUS_FAILURE);
+        //     }
+        // });
+
+    };
+
+    /*
     session.onpaymentauthorized = event => {
         // Define ApplePayPaymentAuthorizationResult
         const result = {
             "status": ApplePaySession.STATUS_SUCCESS
         };
         session.completePayment(result);
+
+
     };
+
+     */
 
     session.oncancel = event => {
         // Payment cancelled by WebKit

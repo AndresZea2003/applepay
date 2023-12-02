@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -12,20 +13,131 @@ class ApplePayController extends Controller
     public function appleServer(Request $request)
     {
 
-        try {
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json',
-            ])->withOptions([
-                'cert' => '/Users/andreszea/.config/valet/Certificates/applepay.test.crt', // Ruta al certificado CSR
-                'ssl_key' => '/Users/andreszea/.config/valet/Certificates/applepay.test.key', // Ruta a la llave privada
-            ])->post($request->validationUrl . '/paymentSession', [
+        $ch = curl_init();
 
+        $data = '{"merchantIdentifier":"'.'merchant.placetopay-test'.'", "domainName":"'.'applepay-e9tjn.ondigitalocean.app'.'", "displayName":"'.'Test Placetopay'.'"}';
+
+        curl_setopt($ch, CURLOPT_URL, $request->validationUrl);
+        curl_setopt($ch, CURLOPT_SSLCERT, storage_path('app/certificados/ApplePay.crt.pem'));
+        curl_setopt($ch, CURLOPT_SSLKEY, storage_path('app/certificados/ApplePay.key.pem'));
+        curl_setopt($ch, CURLOPT_SSLKEYPASSWD, 'Admin123');
+        //curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+        //curl_setopt($ch, CURLOPT_SSLVERSION, 'CURL_SSLVERSION_TLSv1_2');
+        //curl_setopt($ch, CURLOPT_SSL_CIPHER_LIST, 'rsa_aes_128_gcm_sha_256,ecdhe_rsa_aes_128_gcm_sha_256');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+        if(curl_exec($ch) === false)
+        {
+            echo '{"curlError":"' . curl_error($ch) . '"}';
+        }
+
+        // close cURL resource, and free up system resources
+        curl_close($ch);
+
+
+
+
+
+        /*
+        dump('Inicia llamado a Servicio de Apple', 'La url es          -------->          ' . $request->validationUrl);
+
+
+        $appleUrl = $request->validationUrl;
+
+        try {
+            $client = new Client(['verify' => false]);
+
+            $cert_path = storage_path('app/certificados/merchant_id.pem');
+            $key_path = storage_path('app/certificados/key.pem');
+
+            $response = $client->request('POST', $appleUrl, [
+                'cert' => $cert_path,
+                'ssl_key' => $key_path,
+                'json' => [
+                    'merchantIdentifier' => 'merchant.placetopay-test',
+                    'domainName' => 'applepay-e9tjn.ondigitalocean.app',
+                    'displayName' => 'Test Placetopay'
+                ]
             ]);
 
-            return $response;
-        } catch (\Exception $e){
-            return "No logro conectar" . $e->getMessage();
+            return response()->json(json_decode($response->getBody(), true));
+        } catch (RequestException $e) {
+            return response()->json(['error' => $e->getMessage()]);
         }
+
+
+
+
+        try {
+            $response = Http::asJson()->post($request->validationUrl, []);
+
+            dd('dad', $response->json());
+        } catch (\Exception $e) {
+
+        }
+
+
+        */
+
+
+
+
+
+        /*
+        try {
+            let = httpsAgent = new https.Agent({
+                rejectUnauthorized: false,
+                cert: await fs.readFileSync(
+                path.join(_dirname, "/certificates/certificate_sandbox.pem"
+                ),
+                key: fs.readFileSync(
+                    path.join(_dirname, "/certificates/certificate_sandbox.key")
+                )
+            });
+
+
+                let response = await axios.post(
+                appleUrl,
+        {
+            merchantIdentifier: "merchant.placetopay-test",
+            domainName: "applepay-e9tjn.ondigitalocean.app",
+            displayName: "Test Placetopay"
+    },
+        {
+            httpsAgent
+        }
+    );
+                res.send(response.data);
+        } catch (er) {
+            res.send(er);
+        }
+
+     */
+
+
+
+
+
+
+
+
+//        try {
+//            $response = Http::withHeaders([
+//                'Content-Type' => 'application/json',
+//            ])->withOptions([
+//                'cert' => '/Users/andreszea/.config/valet/Certificates/applepay.test.crt', // Ruta al certificado CSR
+//                'ssl_key' => '/Users/andreszea/.config/valet/Certificates/applepay.test.key', // Ruta a la llave privada
+//            ])->post($request->validationUrl . '/paymentSession', [
+//
+//            ]);
+//
+//            return $response;
+//        } catch (\Exception $e){
+//            return "No logro conectar" . $e->getMessage();
+//        }
+
+
 
 
 ////        $validationURL = $request->input('validationURL');
