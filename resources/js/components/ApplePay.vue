@@ -147,6 +147,7 @@ import axios from "axios";
 
 let idk = ref('vacio')
 
+console.log()
 const validateMerchant = (validationUrl) => {
     console.log('La Url de validacion es:', validationUrl)
 
@@ -156,7 +157,7 @@ const validateMerchant = (validationUrl) => {
         validationUrl: validationUrl
     };
 
-    let urlBase = 'https://applepay.test/api/applepay'
+    let urlBase = `${window.location.origin}/api/applepay`
     console.log(urlBase)
     return axios.post(urlBase, data) // Asegúrate de devolver la promesa aquí
         .then((response) => {
