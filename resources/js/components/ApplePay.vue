@@ -156,7 +156,7 @@ const validateMerchant = (validationUrl) => {
         validationUrl: validationUrl
     };
 
-    let urlBase = 'https://applepay.test/api/applepay'
+    let urlBase = 'https://applepay-e9tjn.ondigitalocean.app/api/applepay'
     console.log(urlBase)
     return axios.post(urlBase, data) // Asegúrate de devolver la promesa aquí
         .then((response) => {
