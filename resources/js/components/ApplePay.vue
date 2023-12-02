@@ -249,10 +249,12 @@ function onApplePayButtonClicked() {
         // Asegúrate de que esta función devuelva una promesa que se resuelva cuando el pago se haya procesado correctamente.
 
 
-        console.log('Nice')
+        console.log('Nice Payment : ', event.payment)
 
         // let promise = processPayment(event.payment); // Asume que processPayment es tu función que procesa el pago
-        //
+
+        session.completePayment(ApplePaySession.STATUS_SUCCESS);
+
         // promise.then(function(success) {
         //     if (success) {
         //         // Si el pago se procesó correctamente, debes llamar a completePayment con ApplePaySession.STATUS_SUCCESS
