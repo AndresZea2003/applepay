@@ -156,7 +156,7 @@ const validateMerchant = (validationUrl) => {
         validationUrl: validationUrl
     };
 
-    let urlBase = 'https://applepay-e9tjn.ondigitalocean.app/api/applepay'
+    let urlBase = 'https://applepay.test/api/applepay'
     console.log(urlBase)
     return axios.post(urlBase, data) // Asegúrate de devolver la promesa aquí
         .then((response) => {
@@ -208,7 +208,7 @@ function onApplePayButtonClicked() {
     }
 
     // Create ApplePaySession
-    const session = new ApplePaySession(6, simpleRequest);
+    const session = new ApplePaySession(10, simpleRequest);
 
     session.onvalidatemerchant = async event => {
         // Call your own server to request a new merchant session.
@@ -228,13 +228,18 @@ function onApplePayButtonClicked() {
 
          */
 
-        // const merchantSession = await validateMerchant(event.validationURL);
-        // session.completeMerchantValidation(merchantSession);
+
+        const merchantSession = await validateMerchant(event.validationURL);
+
+        session.completeMerchantValidation(merchantSession);
+
+        console.log('COMPLETAR VALIDACION DEL MERCHANT', merchantSession)
 
 
-        validateMerchant(event.validationURL, function (merchantSession) {
-            session.completeMerchantValidation(merchantSession);
-        });
+        // validateMerchant(event.validationURL, function (merchantSession) {
+        //     session.completeMerchantValidation(merchantSession);
+        //
+        // });
     };
 
 
