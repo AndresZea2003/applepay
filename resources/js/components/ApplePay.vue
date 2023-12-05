@@ -247,9 +247,7 @@ function onApplePayButtonClicked() {
     session.onpaymentauthorized = function(event) {
         // Aquí es donde procesarías el pago. Por ejemplo, podrías enviar los detalles del pago a tu servidor para que sean procesados.
         // Asegúrate de que esta función devuelva una promesa que se resuelva cuando el pago se haya procesado correctamente.
-
-
-        alert(JSON.stringify(event.payment))
+        
 
         console.log('Nice Payment : ', event.payment)
 
