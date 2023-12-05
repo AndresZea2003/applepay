@@ -249,7 +249,12 @@ function onApplePayButtonClicked() {
         // Asegúrate de que esta función devuelva una promesa que se resuelva cuando el pago se haya procesado correctamente.
 
 
+        alert(JSON.stringify(event.payment))
+
         console.log('Nice Payment : ', event.payment)
+
+
+        console.log('TOKEEEN', JSON.stringify(event.payment))
 
         // let promise = processPayment(event.payment); // Asume que processPayment es tu función que procesa el pago
 
