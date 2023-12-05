@@ -171,6 +171,8 @@ const validateMerchant = (validationUrl) => {
         });
 }
 
+let token = ref('Sin token')
+
 function onApplePayButtonClicked() {
     console.log('Inicia ApplePay!')
 
@@ -244,10 +246,13 @@ function onApplePayButtonClicked() {
     };
 
 
+
     session.onpaymentauthorized = function(event) {
         // Aquí es donde procesarías el pago. Por ejemplo, podrías enviar los detalles del pago a tu servidor para que sean procesados.
         // Asegúrate de que esta función devuelva una promesa que se resuelva cuando el pago se haya procesado correctamente.
-        
+
+
+        token.value = event.payment
 
         console.log('Nice Payment : ', event.payment)
 
@@ -355,6 +360,11 @@ function onApplePayButtonClicked() {
                     class="bg-white border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition duration-200">
                     Pagar con otra forma de pago
                 </button>
+
+                <div>
+                    {{token}}
+                </div>
+
                 <div class="flex bg-gray-300 rounded-md grid grid-cols-2 text-center gap-5">
                     <div class="font-bold">Windows y Linux</div>
                     <div class="font-bold">Apple</div>
