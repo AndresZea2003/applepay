@@ -175,11 +175,12 @@ let token = ref('Sin token')
 
 function onApplePayButtonClicked() {
     console.log('Inicia ApplePay!')
-
+    //PASO 1
     if (!ApplePaySession) {
         return;
     }
 
+    //PASO 2
     // Define ApplePayPaymentRequest
     const request = {
         "countryCode": "US",
@@ -209,10 +210,15 @@ function onApplePayButtonClicked() {
         supportedNetworks: ["visa", "mastercard", "amex", "discover"],
         total: { label: "Place To Pay", amount: "1.00"}
     }
-
+    //PASO 3
     // Create ApplePaySession
     const session = new ApplePaySession(10, simpleRequest);
 
+    //PASO 4
+    session.begin();
+
+
+    //PASO 5
     session.onvalidatemerchant = async event => {
         // Call your own server to request a new merchant session.
 
@@ -231,9 +237,10 @@ function onApplePayButtonClicked() {
 
          */
 
-
+        //PASO 6
         const merchantSession = await validateMerchant(event.validationURL);
 
+        //PASO 7
         session.completeMerchantValidation(merchantSession);
 
         console.log('COMPLETAR VALIDACION DEL MERCHANT', merchantSession)
@@ -245,14 +252,15 @@ function onApplePayButtonClicked() {
         // });
     };
 
-
-
+    //PASO 8
     session.onpaymentauthorized = function(event) {
         // Aquí es donde procesarías el pago. Por ejemplo, podrías enviar los detalles del pago a tu servidor para que sean procesados.
         // Asegúrate de que esta función devuelva una promesa que se resuelva cuando el pago se haya procesado correctamente.
 
 
-        token.value = event.payment
+        //PASO 9 CONSUMIR BACK PARA DESENCRIPTAR TOKEN
+
+        alert(JSON.stringify(event.payment))
 
         console.log('Nice Payment : ', event.payment)
 
@@ -260,6 +268,9 @@ function onApplePayButtonClicked() {
         console.log('TOKEEEN', JSON.stringify(event.payment))
 
         // let promise = processPayment(event.payment); // Asume que processPayment es tu función que procesa el pago
+
+
+        //PASO 10
 
         session.completePayment(ApplePaySession.STATUS_SUCCESS);
 
@@ -292,7 +303,6 @@ function onApplePayButtonClicked() {
         // Payment cancelled by WebKit
     };
 
-    session.begin();
 
     // session.onpaymentmethodselected = event => {
     //     // Define ApplePayPaymentMethodUpdate based on the selected payment method.
