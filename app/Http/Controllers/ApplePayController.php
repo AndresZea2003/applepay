@@ -23,7 +23,7 @@ class ApplePayController extends Controller
 
         curl_setopt($ch, CURLOPT_URL, $request->validationUrl);
         curl_setopt($ch, CURLOPT_SSLCERT, storage_path('app/certificados/MERCHANT/ApplePay.crt.pem'));
-        curl_setopt($ch, CURLOPT_SSLKEY, storage_path('app/certificados/MERCHANT/ApplePay.key.pem'));
+        curl_setopt($ch, CURLOPT_SSLKEY, storage_path('app/certificados/MERCHANT/rsakey.key'));
         curl_setopt($ch, CURLOPT_SSLKEYPASSWD, 'Admin123');
         //curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
         //curl_setopt($ch, CURLOPT_SSLVERSION, 'CURL_SSLVERSION_TLSv1_2');
