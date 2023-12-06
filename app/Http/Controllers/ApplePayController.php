@@ -22,7 +22,7 @@ class ApplePayController extends Controller
         $data = '{"merchantIdentifier":"'.'merchant.placetopay-test'.'", "domainName":"'.'applepay-e9tjn.ondigitalocean.app'.'", "displayName":"'.'Test Placetopay'.'"}';
 
         curl_setopt($ch, CURLOPT_URL, $request->validationUrl);
-        curl_setopt($ch, CURLOPT_SSLCERT, storage_path('app/certificados/MERCHANT/ApplePay.crt.pem'));
+        curl_setopt($ch, CURLOPT_SSLCERT, storage_path('app/certificados/MERCHANT/merchant_id.pem'));
         curl_setopt($ch, CURLOPT_SSLKEY, storage_path('app/certificados/MERCHANT/rsakey.key'));
         curl_setopt($ch, CURLOPT_SSLKEYPASSWD, 'Admin123');
         //curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
