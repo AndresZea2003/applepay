@@ -269,52 +269,32 @@ class ApplePayController extends Controller
 
     public function decode(Request $request)
     {
-
-
-$privateKey = 'MHcCAQEEIGTWsasssKoSLbIQuYuBZ+p9gwgKOzFFDhfkA50lQTiroAoGCCqGSM49AwEHoUQDQgAErUMdWXWVtKeRpN/ZobVcA/H9dbz5KIPLc1b3MKrmGvcg9BHoHPtEHbQrDY/GZ6y5S8Qm39+W3dRHrMoEu2GY6Q==';
+        $privateKey = 'MHcCAQEEIAbgRQC9lID5Fh7Hq0HRDiVBleN4exTkkiVNR2yPRBgmoAoGCCqGSM49AwEHoUQDQgAEI7cXhwfAsi/voXyNslttP8ujgXKRctOfZi4WPUKOudny9UcDRl2ePrx5qxL4x4ETt0MoZqs6wj3tlx4ZkYfc6g==';
 // merchant identifier from Apple Pay Merchant Account
-$appleId = 'merchant.placetopay-test';
 
+        $appleId = 'merchant.placetopay-test';
 // payment token data received from Apple Pay
-$paymentData = '{
-            "data": "8uIgnoSuUQ+P7LfXyi98kwB0UXbqvyEN9O7WaVffEbuDIRwFYyOmaATaG2zWlK3mwF9AadySbw1Uaw6v6MQmMZHiLoWTD4qvGEPIiqIsVTxkhxG19F57hyzSHqxShUgcxwHfj/rvkmeiFR0E1o8dwrCz5Y4cHzkUIXyCqpBt6cCTozjc5v7arTgkicNQwnu1GZVcOVHQP0ZD1hY3vB8RTbKY2EOC9oJRSpDayxj35X2BFp1hsYfDePiIS0KL0P2KfxTTl7aS/m1qEW12wewTsXPw8ztS9TRza+P3TY61bBs6zRWuPLEq50dinECUET+YgjQftalK/qbtzbj4uKYkjv3xuOyfeP40xzbhl8iauWi+Nsxaaeo+SkpUK21LNQbG5xGPfaCgU5KvwJ2x",
-            "signature": "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",
-            "header": {
-                "publicKeyHash": "bSJELIP2nhtyslRFaUO2TY3d7q5oN8jsrI+cLQ1EBuI=",
-                "ephemeralPublicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEWA6+a08szwPeRy6zL5XNXvs/EDPEuFtm8vFqAsC8wAo/0yVJM+EUCYix4eYbjrL92YG76j6BT1EMHbk9kcMzSA==",
-                "transactionId": "c388f5ae121e9d9e107dcda00d27836dd2ca0a75b235ac6e9efb1d75a2d98795"
-            },
-            "version": "EC_v1"
-        }';
-
-
-$payment2 = json_encode($request->all());
+        $paymentData = json_encode($request->all());
 // how many seconds should the token be valid since the creation time.
-$expirationTime = 315360000; // It should be changed in production to a reasonable value (a couple of minutes)
 
-$rootCertificatePath = storage_path('app/certificados/AppleRootCA-G3.pem');
-
-$applePayDecodingServiceFactory = new ApplePayDecodingServiceFactory();
-$applePayDecodingService = $applePayDecodingServiceFactory->make();
-$applePayValidator = new ApplePayValidator();
-
-$paymentData = json_decode($payment2, true);
-
-try {
-    $applePayValidator->validatePaymentDataStructure($paymentData);
-    $decodedToken = $applePayDecodingService->decode($privateKey, $appleId, $paymentData, $rootCertificatePath, $expirationTime);
-    echo 'Decoded token is: '.PHP_EOL.PHP_EOL;
-    var_dump($decodedToken);
-} catch(DecodingFailedException $exception) {
-    echo 'Decoding failed: '.PHP_EOL.PHP_EOL . $exception->getMessage();
-    echo $exception->getMessage();
-} catch(InvalidFormatException $exception) {
-    echo 'Invalid format: '.PHP_EOL.PHP_EOL;
-    echo $exception->getMessage();
-}
-
-
-        return dump('hola');
+        $expirationTime = 315360000; // It should be changed in production to a reasonable value (a couple of minutes)
+        $rootCertificatePath =  storage_path('app/certificados/AppleRootCA-G3.pem');
+        $applePayDecodingServiceFactory = new ApplePayDecodingServiceFactory();
+        $applePayDecodingService = $applePayDecodingServiceFactory->make();
+        $applePayValidator = new ApplePayValidator();
+        $paymentData = json_decode($paymentData, true);
+        try {
+            $applePayValidator->validatePaymentDataStructure($paymentData);
+            $decodedToken = $applePayDecodingService->decode($privateKey, $appleId, $paymentData, $rootCertificatePath, $expirationTime);
+            echo 'Decoded token is: '.PHP_EOL.PHP_EOL;
+            dump($decodedToken);
+        } catch(DecodingFailedException $exception) {
+            echo 'Decoding failed: '.PHP_EOL.PHP_EOL;
+            echo $exception->getMessage();
+        } catch(InvalidFormatException $exception) {
+            echo 'Invalid format: '.PHP_EOL.PHP_EOL;
+            echo $exception->getMessage();
+        }
     }
 
 
