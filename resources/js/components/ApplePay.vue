@@ -260,7 +260,7 @@ function onApplePayButtonClicked() {
 
         //PASO 9 CONSUMIR BACK PARA DESENCRIPTAR TOKEN
 
-        alert(JSON.stringify(event.payment))
+        token.value = event.payment
 
         console.log('Nice Payment : ', event.payment)
 
