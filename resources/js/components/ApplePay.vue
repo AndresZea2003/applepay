@@ -121,9 +121,11 @@ function onApplePayButtonClicked() {
         res.value = event
         token.value = event.payment
 
+        console.log('RESPUESTA : ', event)
         console.log('Nice Payment : ', event.payment)
 
 
+        console.log('RESSSSS', JSON.stringify(event))
         console.log('TOKEEEN', JSON.stringify(event.payment))
 
         // let promise = processPayment(event.payment); // Asume que processPayment es tu función que procesa el pago
