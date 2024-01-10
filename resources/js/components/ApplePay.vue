@@ -27,7 +27,7 @@ const validateMerchant = (validationUrl) => {
 }
 
 let token = ref('Sin token')
-let res = ref('No hay respuesta (Realiza un pago)')
+let resMerchant = ref('No hay respuesta (Realiza un pago)')
 
 function onApplePayButtonClicked() {
 
@@ -101,7 +101,7 @@ function onApplePayButtonClicked() {
         //PASO 7
         session.completeMerchantValidation(merchantSession);
 
-        console.log('COMPLETAR VALIDACION DEL MERCHANT', merchantSession)
+        console.log('RESPUESTA AL COMPLETAR VALIDACION DEL MERCHANT', merchantSession)
 
 
         // validateMerchant(event.validationURL, function (merchantSession) {
@@ -118,15 +118,10 @@ function onApplePayButtonClicked() {
 
         //PASO 9 CONSUMIR BACK PARA DESENCRIPTAR TOKEN
 
-        res.value = event
         token.value = event.payment
 
         console.log('RESPUESTA : ', event)
-        console.log('Nice Payment : ', event.payment)
-
-
-        console.log('RESSSSS', JSON.stringify(event))
-        console.log('TOKEEEN', JSON.stringify(event.payment))
+        console.log('PAYMENT : ', event.payment)
 
         // let promise = processPayment(event.payment); // Asume que processPayment es tu función que procesa el pago
 
@@ -172,8 +167,9 @@ function onApplePayButtonClicked() {
                 <apple-pay-button @click="onApplePayButtonClicked()" buttonstyle="black" type="plain" locale="es"></apple-pay-button>
                 
                 <div class="rounded-lg border border-gray-300 p-4">
-                    <span class="font-bold text-xl">Respuesta:</span> <br>
-                    {{res}} <br> <br>
+                    <span class="font-bold text-2xl text-gray-500">Respuesta del Servicio:</span> <br> <br>
+                    <span class="font-bold text-xl">Validacion Merchant:</span> <br>
+                    {{resMerchant}} <br> <br>
                     <span class="font-bold text-xl">Token:</span> <br>
                     {{token}}
                 </div>
