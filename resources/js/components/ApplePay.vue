@@ -183,10 +183,6 @@ function onApplePayButtonClicked() {
 }
 
 apple-pay-button {
-  --apple-pay-button-width: 384px;
   --apple-pay-button-height: 40px;
-  --apple-pay-button-border-radius: 3px;
-  --apple-pay-button-padding: 0px 0px;
-  --apple-pay-button-box-sizing: border-box;
 }
 </style>
