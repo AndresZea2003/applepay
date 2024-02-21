@@ -62,8 +62,7 @@ function onApplePayButtonClicked() {
         countryCode: "US",
         currencyCode: "USD",
         merchantCapabilities: [
-            "supportsDebit",
-            "supportsCredit"
+            "supports3DS",
         ],
         supportedNetworks: ["visa", "mastercard", "amex", "discover"],
         total: { label: "Place To Pay", amount: "1.00"}
