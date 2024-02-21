@@ -25,7 +25,7 @@ class ApplePayController extends Controller
 
         curl_setopt($ch, CURLOPT_SSLCERT, storage_path('app/certificados/MERCHANT/merchant_id.pem'));
         curl_setopt($ch, CURLOPT_SSLKEY, storage_path('app/certificados/MERCHANT/rsakey.key'));
-        
+
         curl_setopt($ch, CURLOPT_SSLKEYPASSWD, 'Admin123');
         //curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
         //curl_setopt($ch, CURLOPT_SSLVERSION, 'CURL_SSLVERSION_TLSv1_2');
@@ -289,7 +289,7 @@ class ApplePayController extends Controller
             $applePayValidator->validatePaymentDataStructure($paymentData);
             $decodedToken = $applePayDecodingService->decode($privateKey, $appleId, $paymentData, $rootCertificatePath, $expirationTime);
             echo 'Decoded token is: '.PHP_EOL.PHP_EOL;
-            dump($decodedToken);
+            dump('Controlador', $decodedToken);
         } catch(DecodingFailedException $exception) {
             echo 'Decoding failed: '.PHP_EOL.PHP_EOL;
             echo $exception->getMessage();

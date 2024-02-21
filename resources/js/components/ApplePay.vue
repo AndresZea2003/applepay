@@ -68,9 +68,61 @@ function onApplePayButtonClicked() {
         total: { label: "Place To Pay", amount: "1.00"}
     }
 
+    const recurringPaymentRequest = {
+        "countryCode": "US",
+        "currencyCode": "USD",
+        "merchantCapabilities": [
+            "supports3DS",
+            "supportsDebit",
+            "supportsCredit"
+        ],
+        "supportedNetworks": [
+            "visa",
+            "masterCard",
+            "amex",
+            "discover"
+        ],
+        "lineItems": [
+            {
+                "label": "7 Day Trial",
+                "amount": "0.00",
+                "paymentTiming": "recurring",
+                "recurringPaymentEndDate": "2024-02-28T05:00:00.000Z"
+            },
+            {
+                "label": "Recurring",
+                "amount": "4.99",
+                "paymentTiming": "recurring",
+                "recurringPaymentStartDate": "2024-02-28T05:00:00.000Z"
+            }
+        ],
+        "recurringPaymentRequest": {
+            "paymentDescription": "A description of the recurring payment to display to the user in the payment sheet.",
+            "regularBilling": {
+                "label": "Recurring",
+                "amount": "4.99",
+                "paymentTiming": "recurring",
+                "recurringPaymentStartDate": "2024-02-28T05:00:00.000Z"
+            },
+            "trialBilling": {
+                "label": "7 Day Trial",
+                "amount": "0.00",
+                "paymentTiming": "recurring",
+                "recurringPaymentEndDate": "2024-02-28T05:00:00.000Z"
+            },
+            "billingAgreement": "A localized billing agreement displayed to the user in the payment sheet prior to the payment authorization.",
+            "managementURL": "https://applepaydemo.apple.com",
+            "tokenNotificationURL": "https://applepaydemo.apple.com"
+        },
+        "total": {
+            "label": "Recurring Demo (Card is not charged)",
+            "amount": "4.99"
+        }
+    }
+
     //PASO 3
     // Create ApplePaySession
-    const session = new ApplePaySession(10, simpleRequest);
+    const session = new ApplePaySession(10, recurringPaymentRequest);
 
     //PASO 4
     session.begin();
@@ -165,7 +217,7 @@ function onApplePayButtonClicked() {
             </div>
             <div class="flex flex-col space-y-4">
                 <apple-pay-button @click="onApplePayButtonClicked()" buttonstyle="black" type="plain" locale="es"></apple-pay-button>
-                
+
                 <div class="rounded-lg border border-gray-300 p-4">
                     <span class="font-bold text-2xl text-gray-500">Respuesta del Servicio:</span> <br> <br>
                     <span class="font-bold text-xl">Validacion Merchant:</span> <br>
