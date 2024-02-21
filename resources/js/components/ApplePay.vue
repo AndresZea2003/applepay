@@ -62,7 +62,8 @@ function onApplePayButtonClicked() {
         countryCode: "US",
         currencyCode: "USD",
         merchantCapabilities: [
-            "supports3DS"
+            "supportsDebit",
+            "supportsCredit"
         ],
         supportedNetworks: ["visa", "mastercard", "amex", "discover"],
         total: { label: "Place To Pay", amount: "1.00"}
@@ -122,7 +123,7 @@ function onApplePayButtonClicked() {
 
     //PASO 3
     // Create ApplePaySession
-    const session = new ApplePaySession(10, recurringPaymentRequest);
+    const session = new ApplePaySession(10, simpleRequest);
 
     //PASO 4
     session.begin();
