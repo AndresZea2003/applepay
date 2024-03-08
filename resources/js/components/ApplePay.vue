@@ -54,7 +54,7 @@ function onApplePayButtonClicked() {
         "total": {
             "label": "Demo (Card is not charged)",
             "type": "final",
-            "amount": "1.99"
+            "amount": "0.10"
         }
     };
 
@@ -65,7 +65,7 @@ function onApplePayButtonClicked() {
             "supports3DS",
         ],
         supportedNetworks: ["visa", "mastercard", "amex", "discover"],
-        total: { label: "Place To Pay", amount: "1.00"}
+        total: { label: "Place To Pay", amount: "0.10"}
     }
 
     const recurringPaymentRequest = {
