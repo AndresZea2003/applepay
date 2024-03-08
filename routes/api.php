@@ -1,23 +1,13 @@
 <?php
 
 use App\Http\Controllers\ApplePayController;
+use App\Http\Controllers\ApplePayV1Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use PayU\ApplePay\ApplePayDecodingServiceFactory;
 use PayU\ApplePay\ApplePayValidator;
 use PayU\ApplePay\Exception\DecodingFailedException;
 use PayU\ApplePay\Exception\InvalidFormatException;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -26,10 +16,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/applepay', [ApplePayController::class, 'appleServer'])->name('apple');
 Route::post('/decrypt', [ApplePayController::class, 'decode'])->name('decrypt');
 
-
-
-
-
+Route::prefix('/v1/applepay')->group(function () {
+    Route::post('/server', [ApplePayV1Controller::class, 'server'])->name('api.server');
+    Route::post('/decrypt', [ApplePayV1Controller::class, 'decrypt'])->name('api.decrypt');
+});
 
 
 
