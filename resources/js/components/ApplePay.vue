@@ -203,7 +203,7 @@ function onApplePayButtonClicked() {
 
 <template>
 
-    <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div class="flex flex-col items-center justify-center min-h-screen bg-gray-300">
         <div class="w-full max-w-md rounded-lg shadow-lg p-8 bg-white">
             <h2 class="text-2xl font-bold mb-4">Pagar con Apple Pay</h2>
             <div class="flex items-center justify-between mb-4">
