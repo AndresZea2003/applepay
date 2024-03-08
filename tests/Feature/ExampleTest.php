@@ -18,4 +18,11 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_api_response()
+    {
+        $response = $this->postJson(route('api.server'), ["validationUrl" => 'https://fake-url.com']);
+
+        $response->assertStatus(200);
+    }
 }
