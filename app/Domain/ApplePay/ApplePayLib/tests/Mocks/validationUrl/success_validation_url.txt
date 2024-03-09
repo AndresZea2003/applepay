@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Date: Thu, 14 Aug 2023 20:09:59 GMT
+Server: Apache
+Upgrade: h2
+Connection: Upgrade, Keep-Alive
+Cache-Control: no-cache, private
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Keep-Alive: timeout=5, max=100
+Transfer-Encoding: chunked
+Content-Type: application/json
+
+
+{"token": "token"}
