@@ -18,7 +18,7 @@ class ApplePayClient implements ApplePayApi
     /**
      * @throws InvalidSettingsException
      */
-    public function __construct(protected readonly array $config)
+    public function __construct(array $config)
     {
         $this->client = new Gateway(new Settings($config));
     }

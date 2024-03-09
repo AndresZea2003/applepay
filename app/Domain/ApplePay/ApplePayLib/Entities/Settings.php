@@ -42,9 +42,6 @@ class Settings
         $resolver->define('timeout')->allowedTypes('int')->default(10);
         $resolver->define('connect_timeout')->allowedTypes('int')->default(5);
         $resolver->define('headers')->allowedTypes('array')->default([]);
-        $resolver->setNormalizer(
-            'baseUrl', fn (Options $options, $value) => rtrim((string) $value, '/').'/'
-        );
         $resolver->define('httpClient')->allowedTypes(ClientInterface::class)
             ->default(function (Options $options): Client {
                 $headers = array_merge(['User-Agent' => 'Apple Pay Client'], $options['headers']);
