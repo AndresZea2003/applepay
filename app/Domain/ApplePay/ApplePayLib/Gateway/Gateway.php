@@ -18,7 +18,7 @@ readonly class Gateway
      */
     public function validationUrl(ValidationUrlRequest $data): array
     {
-        return $this->call(url: $data->validationUrl, data: $data->toArray());
+        return $this->call(url: $data->validationUrl, data: $data->toApplePayRequest());
     }
 
     /**

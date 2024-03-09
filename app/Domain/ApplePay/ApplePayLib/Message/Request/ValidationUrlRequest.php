@@ -29,6 +29,16 @@ class ValidationUrlRequest implements Arrayable
     public function toArray(): array
     {
         return [
+            'merchantId' => $this->merchantId,
+            'domainName' => $this->domainName,
+            'displayName' => $this->displayName,
+            'validationUrl' => $this->validationUrl,
+        ];
+    }
+
+    public function toApplePayRequest(): array
+    {
+        return [
             'merchantIdentifier' => $this->merchantId,
             'domainName' => $this->domainName,
             'displayName' => $this->displayName,
