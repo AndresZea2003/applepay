@@ -3,12 +3,12 @@
 namespace App\Domain\ApplePay\ApplePayLib\Contracts;
 
 use App\Domain\ApplePay\ApplePayLib\Exceptions\ServicesException;
-use App\Domain\ApplePay\ApplePayLib\Message\Request\ServerRequest;
+use App\Domain\ApplePay\ApplePayLib\Message\Request\ValidationUrlRequest;
 
 interface ApplePayApi
 {
     /**
      * @throws ServicesException
      */
-    public function server(ServerRequest $data): array;
+    public function validationUrl(ValidationUrlRequest $data): array;
 }

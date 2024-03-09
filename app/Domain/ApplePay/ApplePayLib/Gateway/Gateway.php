@@ -4,7 +4,7 @@ namespace App\Domain\ApplePay\ApplePayLib\Gateway;
 
 use App\Domain\ApplePay\ApplePayLib\Entities\Settings;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\ServicesException;
-use App\Domain\ApplePay\ApplePayLib\Message\Request\ServerRequest;
+use App\Domain\ApplePay\ApplePayLib\Message\Request\ValidationUrlRequest;
 
 readonly class Gateway
 {
@@ -16,7 +16,7 @@ readonly class Gateway
     /**
      * @throws ServicesException
      */
-    public function server(ServerRequest $data): array
+    public function validationUrl(ValidationUrlRequest $data): array
     {
         return $this->call(url: $data->validationUrl, data: $data->toArray());
     }

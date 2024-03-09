@@ -4,7 +4,7 @@ namespace App\Domain\ApplePay\ApplePayLib\Message\Request;
 
 use App\Domain\ApplePay\ApplePayLib\Contracts\Arrayable;
 
-class ServerRequest implements Arrayable
+class ValidationUrlRequest implements Arrayable
 {
     public function __construct(
         public string $merchantId,
