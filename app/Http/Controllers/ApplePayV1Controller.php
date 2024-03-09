@@ -14,13 +14,7 @@ class ApplePayV1Controller extends Controller
     {
 
         try {
-            $response =  $applePayServices->validationUrl([
-                'merchantId' => config('services.apple_pay.merchantId'),
-                'domainName' => config('services.apple_pay.domainName'),
-                'displayName' => config('services.apple_pay.displayName'),
-                'validationUrl' => $request->validationUrl()
-            ]);
-
+            $response =  $applePayServices->validationUrl($request->validationUrl());
         }catch (ServicesException $e){
            return response()->json(['message' => $e->getMessage(), $e->getCode()]);
         }

@@ -15,8 +15,14 @@ readonly class ApplePayServices
     /**
      * @throws ServicesException
      */
-    public function validationUrl(array $data): array
+    public function validationUrl(string $validationUrl): array
     {
+        $data = [
+            'merchantId' => config('services.apple_pay.merchantId'),
+            'domainName' => config('services.apple_pay.domainName'),
+            'displayName' => config('services.apple_pay.displayName'),
+            'validationUrl' => $validationUrl
+        ];
 
         return $this->client->validationUrl(ValidationUrlRequest::fromArray($data));
     }
