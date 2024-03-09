@@ -35,7 +35,7 @@ class ApplePayClient implements ApplePayApi
     /**
      * @throws ServicesException
      */
-    public function server(ServerRequest $data)
+    public function server(ServerRequest $data): array
     {
         return $this->client->server($data);
     }

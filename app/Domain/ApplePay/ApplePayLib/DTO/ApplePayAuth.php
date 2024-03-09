@@ -18,9 +18,9 @@ class ApplePayAuth implements Arrayable
     public static function fromArray(array $config): self
     {
         return new self(
-            cert: $config['cert'] ?? '',
-            sslKey: $config['sslKey'],
-            sslKeyPassword: $config['sslKeyPassword'] ?? '',
+            cert: $config['cert'] ?? null,
+            sslKey: $config['sslKey'] ?? null,
+            sslKeyPassword: $config['sslKeyPassword'] ?? null,
         );
     }
 

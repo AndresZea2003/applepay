@@ -10,5 +10,5 @@ interface ApplePayApi
     /**
      * @throws ServicesException
      */
-    public function server(ServerRequest $data);
+    public function server(ServerRequest $data): array;
 }

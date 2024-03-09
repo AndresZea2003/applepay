@@ -6,7 +6,7 @@ use App\Domain\ApplePay\ApplePayLib\Entities\Settings;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\ServicesException;
 use App\Domain\ApplePay\ApplePayLib\Message\Request\ServerRequest;
 
-class Gateway
+readonly class Gateway
 {
     public function __construct(private Settings $settings)
     {
