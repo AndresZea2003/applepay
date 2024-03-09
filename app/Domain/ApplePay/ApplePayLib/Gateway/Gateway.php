@@ -16,9 +16,15 @@ readonly class Gateway
     /**
      * @throws ServicesException
      */
-    public function validationUrl(ValidationUrlRequest $data): array
+    public function validationUrl(ValidationUrlRequest $request): array
     {
-        return $this->call(url: $data->validationUrl, data: $data->toApplePayRequest());
+        $data = [
+            'merchantIdentifier' => $request->merchantId,
+            'domainName' => $request->domainName,
+            'displayName' => $request->displayName,
+        ];
+
+        return $this->call(url: $request->validationUrl, data: $data);
     }
 
     /**
