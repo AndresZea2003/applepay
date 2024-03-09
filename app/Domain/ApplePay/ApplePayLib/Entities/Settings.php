@@ -17,7 +17,6 @@ use Throwable;
  * @property int $timeout
  * @property int $connect_timeout
  * @property array $headers
- * @property string $baseUrl
  * @property Client $httpClient
  */
 class Settings
@@ -61,8 +60,7 @@ class Settings
                     'headers' => $headers,
                     'connect_timeout' => $options['connect_timeout'],
                     'timeout' => $options['timeout'],
-                    'base_uri' => $options['baseUrl'],
-                    'http_errors' => false,
+                    'http_errors' => true,
                 ];
 
                 $stack['handler'] = $handler;

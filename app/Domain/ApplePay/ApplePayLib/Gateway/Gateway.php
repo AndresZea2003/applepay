@@ -18,16 +18,16 @@ readonly class Gateway
      */
     public function server(ServerRequest $data): array
     {
-        return $this->call(endpoint: $data->validationUrl, data: $data->toArray());
+        return $this->call(url: $data->validationUrl, data: $data->toArray());
     }
 
     /**
      * @throws ServicesException
      */
-    private function call(string $endpoint, array $data, string $method = 'POST'): array
+    private function call(string $url, array $data, string $method = 'POST'): array
     {
         try {
-            $response = $this->settings->httpClient->request($method, $endpoint, ['json' => $data]);
+            $response = $this->settings->httpClient->request($method, $url, ['json' => $data]);
 
              return json_decode($response->getBody()->__toString(), true);
         } catch (\Throwable $e) {
