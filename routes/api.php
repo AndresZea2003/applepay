@@ -18,7 +18,7 @@ Route::post('/decrypt', [ApplePayController::class, 'decode'])->name('decrypt');
 
 Route::prefix('/v1/applepay')->group(function () {
     Route::post('/server', [ApplePayV1Controller::class, 'server'])->name('api.server');
-    Route::post('/decrypt', [ApplePayV1Controller::class, 'decrypt'])->name('api.decrypt');
+    Route::post('/decode', [ApplePayV1Controller::class, 'decode'])->name('api.decrypt');
 });
 
 
