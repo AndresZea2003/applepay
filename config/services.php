@@ -30,5 +30,11 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'apple_pay' => [
+        'merchantId' => env('APPLE_PAY_MERCHANT_ID'),
+        'domainName' => env('APPLE_PAY_DOMAIN_NAME'),
+        'displayName' => env('APPLE_PAY_DISPLAY_NAME'),
+        'ssl_key_password' => env('APPLE_PAY_SSL_KEY_PASSWORD', '')
+    ]
 
 ];
