@@ -30,6 +30,7 @@ class Settings
         $this->configureOptions($resolver);
 
         try {
+
             $this->settings = $resolver->resolve($this->settings);
         } catch (Throwable $exception) {
             throw new InvalidSettingsException($exception->getMessage());
@@ -64,5 +65,10 @@ class Settings
 
                 return new Client($stack);
             });
+    }
+
+    public function __get($name)
+    {
+        return $this->settings[$name];
     }
 }

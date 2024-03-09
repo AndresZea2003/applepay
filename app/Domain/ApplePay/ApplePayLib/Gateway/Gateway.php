@@ -27,7 +27,7 @@ readonly class Gateway
     private function call(string $url, array $data, string $method = 'POST'): array
     {
         try {
-            $response = $this->settings->httpClient->request($method, $url, ['json' => $data]);
+            $response = $this->settings->httpClient->request($method, $url, ['json' => $data,  'headers' => $this->settings->headers]);
 
              return json_decode($response->getBody()->__toString(), true);
         } catch (\Throwable $e) {
