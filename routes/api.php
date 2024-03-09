@@ -16,7 +16,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/applepay', [ApplePayController::class, 'appleServer'])->name('apple');
 Route::post('/decrypt', [ApplePayController::class, 'decode'])->name('decrypt');
 
-Route::prefix('/v1/applepay')->group(function () {
+Route::prefix('/v1/apple-pay')->group(function () {
     Route::post('/server', [ApplePayV1Controller::class, 'server'])->name('api.server');
     Route::post('/decode', [ApplePayV1Controller::class, 'decode'])->name('api.decrypt');
 });
