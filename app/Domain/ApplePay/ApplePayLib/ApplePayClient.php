@@ -23,15 +23,6 @@ class ApplePayClient implements ApplePayApi
         $this->client = new Gateway(new Settings($config));
     }
 
-
-    /*   protected RestClient $client;
-
-
-       public function __construct(protected readonly array $config)
-       {
-           $this->client = new RestClient(new Settings($config));
-       }*/
-
     /**
      * @throws ServicesException
      */
