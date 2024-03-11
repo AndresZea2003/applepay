@@ -12,7 +12,6 @@ class ApplePayV1Controller extends Controller
 {
     public function validationUrl(ValidationRequest $request, ApplePayServices $applePayServices): JsonResponse
     {
-
         try {
             $response =  $applePayServices->validationUrl($request->validationUrl());
         }catch (ServicesException $e){
@@ -21,7 +20,7 @@ class ApplePayV1Controller extends Controller
 
         return response()->json([
             'message' => 'OK',
-            'token' => $response['token']
+            'response' => $response,
         ]);
 
     }

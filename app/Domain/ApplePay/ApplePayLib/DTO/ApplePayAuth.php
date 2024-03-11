@@ -4,7 +4,7 @@ namespace App\Domain\ApplePay\ApplePayLib\DTO;
 
 use App\Domain\ApplePay\ApplePayLib\Contracts\Arrayable;
 
-class ApplePayAuth implements Arrayable
+class ApplePayAuth
 {
     public function __construct(
         public string $cert,
@@ -22,14 +22,5 @@ class ApplePayAuth implements Arrayable
             sslKey: $config['sslKey'] ?? null,
             sslKeyPassword: $config['sslKeyPassword'] ?? null,
         );
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'cert' => $this->cert,
-            'ssl_key' => $this->sslKey,
-            'ssl_key_password' => $this->sslKeyPassword,
-        ];
     }
 }
