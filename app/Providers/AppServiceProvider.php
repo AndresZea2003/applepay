@@ -17,8 +17,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(ApplePayApi::class, fn() => new ApplePayClient([
                 'auth' => ApplePayAuth::fromArray([
-                    'cert' => storage_path('app/certificates/MERCHANT/merchant_id.pem'),
-                    'sslKey' => storage_path('app/certificates/MERCHANT/rsakey.key'),
+                    'cert' => storage_path('app/certificados/MERCHANT/merchant_id.pem'),
+                    'sslKey' => storage_path('app/certificados/MERCHANT/rsakey.key'),
                     'sslKeyPassword' => config('services.apple_pay.ssl_key_password'),
                 ]),
                 'connect_timeout' => 5,
