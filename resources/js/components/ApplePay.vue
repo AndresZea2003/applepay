@@ -151,6 +151,7 @@ function onApplePayButtonClicked() {
         //PASO 6
         const merchantSession = await validateMerchant(event.validationURL);
 
+        console.log("MERCHANT SESSION:", merchantSession);
         //PASO 7
         session.completeMerchantValidation(merchantSession);
 
