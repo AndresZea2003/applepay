@@ -9,6 +9,7 @@ use App\Domain\ApplePay\ApplePayLib\Exceptions\InvalidSettingsException;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\ServicesException;
 use App\Domain\ApplePay\ApplePayLib\Gateway\Gateway;
 use App\Domain\ApplePay\ApplePayLib\Message\Request\ValidationUrlRequest;
+use App\Domain\ApplePay\ApplePayLib\Message\Response\ValidationUrlResponse;
 
 
 class ApplePayClient implements ApplePayApi
@@ -26,8 +27,8 @@ class ApplePayClient implements ApplePayApi
     /**
      * @throws ServicesException
      */
-    public function validationUrl(ValidationUrlRequest $data): array
+    public function validationUrl(ValidationUrlRequest $data): ValidationUrlResponse
     {
-        return $this->client->validationUrl($data);
+        return ValidationUrlResponse::fromArray($this->client->validationUrl($data));
     }
 }
