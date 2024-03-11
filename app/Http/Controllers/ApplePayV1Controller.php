@@ -18,7 +18,7 @@ class ApplePayV1Controller extends Controller
            return response()->json(['message' => $e->getMessage(), $e->getCode()]);
         }
 
-        return $response;
+        return $response->toArray();
 
     }
 
