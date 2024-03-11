@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class ApplePayV1Controller extends Controller
 {
-    public function validationUrl(ValidationRequest $request, ApplePayServices $applePayServices): JsonResponse|Array
+    public function validationUrl(ValidationRequest $request, ApplePayServices $applePayServices): JsonResponse|array
     {
         try {
             $response =  $applePayServices->validationUrl($request->validationUrl());
