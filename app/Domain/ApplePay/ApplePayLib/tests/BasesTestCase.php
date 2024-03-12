@@ -7,7 +7,6 @@ use App\Domain\ApplePay\ApplePayLib\Cases\ApplePayClientMock;
 use App\Domain\ApplePay\ApplePayLib\DTO\ApplePayAuth;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use Tests\Support\HttpHistory;
 use Tests\TestCase;
 
 class BasesTestCase extends TestCase

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Domain\ApplePay\ApplePayLib\Exceptions\ServicesException;
 use App\Domain\ApplePay\Services\ApplePayServices;
+use App\Http\Requests\DecodeRequest;
 use App\Http\Requests\ValidationRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ApplePayV1Controller extends Controller
 {
@@ -22,10 +22,9 @@ class ApplePayV1Controller extends Controller
 
     }
 
-    public function decode(Request $request): string
+    public function decode(DecodeRequest $request, ApplePayServices $applePayServices): array
     {
-        return response()->json([
-            'message' => 'decrypt'
-        ]);
+        //PROCESS -> isExternalWallet type applepay -> information -> 3DS|process
+        return $applePayServices->decode($request->token())->toArray();
     }
 }

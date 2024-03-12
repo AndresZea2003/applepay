@@ -177,12 +177,36 @@ function onApplePayButtonClicked() {
         console.log('RESPUESTA : ', event)
         console.log('PAYMENT : ', event.payment)
 
+        let urlBase = `${window.location.origin}/api/v1/apple-pay/decode`
+        console.log(urlBase)
+
+        const $data = {
+            'gateway' : 'dinners',
+            'instrument' : {
+                'externalWallet' : {
+                    'type' : 'applepay',
+                    'additional' : token.value['token']
+                }
+            }
+        }
+        console.log("DATA:", $data);
+
+        axios.post(urlBase, $data) // Asegúrate de devolver la promesa aquí
+            .then((response) => {
+                console.log(response.data);
+                console.log('EXITO')
+                //PASO 10
+                session.completePayment(ApplePaySession.STATUS_SUCCESS);
+            })
+            .catch((error) => {
+                console.log('FALLO', error)
+                console.error(error);
+            });
+
         // let promise = processPayment(event.payment); // Asume que processPayment es tu función que procesa el pago
 
 
-        //PASO 10
 
-        session.completePayment(ApplePaySession.STATUS_SUCCESS);
 
         // promise.then(function(success) {
         //     if (success) {
