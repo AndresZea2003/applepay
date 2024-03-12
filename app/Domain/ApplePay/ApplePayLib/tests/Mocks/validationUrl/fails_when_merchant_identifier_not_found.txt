@@ -1,0 +1,12 @@
+HTTP/1.1 400 Bad Request
+Date: Thu, 13 Jul 2023 20:12:31 GMT
+Server: Apache
+Upgrade: h2
+Connection: Upgrade, close
+Cache-Control: no-cache, private
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Transfer-Encoding: chunked
+Content-Type: application/json
+
+{"error": "error"}

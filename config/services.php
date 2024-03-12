@@ -30,5 +30,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'apple_pay' => [
+        'merchantId' => env('APPLE_PAY_MERCHANT_ID', 'merchant.placetopay-test'),
+        'domainName' => env('APPLE_PAY_DOMAIN_NAME', 'applepay-e9tjn.ondigitalocean.app'),
+        'displayName' => env('APPLE_PAY_DISPLAY_NAME','Test Placetopay'),
+        'ssl_key_password' => env('APPLE_PAY_SSL_KEY_PASSWORD', 'Admin123')
+    ]
 ];

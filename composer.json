@@ -5,11 +5,14 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
-        "guzzlehttp/guzzle": "^7.2",
+        "php": "^8.2",
+        "ext-curl": "*",
+        "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^9.19",
-        "laravel/sanctum": "^2.14.1",
-        "laravel/tinker": "^2.7"
+        "laravel/sanctum": "^3.0",
+        "laravel/tinker": "^2.7",
+        "payu/apple-pay": "^1.0",
+        "symfony/options-resolver": "^7.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -55,8 +58,11 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
