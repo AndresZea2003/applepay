@@ -10,8 +10,6 @@ class DecodeRequest implements Arrayable
 {
     public function __construct(
         public PaymentData $paymentData,
-        public PaymentMethod $paymentMethod,
-        public string $transactionIdentifier
     )
     {
         //
@@ -21,8 +19,6 @@ class DecodeRequest implements Arrayable
     {
         return new self(
             paymentData: $data['paymentData'] ? PaymentData::fromArray( $data['paymentData']) : null,
-            paymentMethod: $data['paymentMethod'] ? PaymentMethod::fromArray( $data['paymentMethod']) : null,
-            transactionIdentifier: $data['transactionIdentifier'] ?? null,
         );
     }
 
@@ -30,8 +26,6 @@ class DecodeRequest implements Arrayable
     {
         return [
             'paymentData' => $this->paymentData->toArray(),
-            'paymentMethod' => $this->paymentMethod->toArray(),
-            'transactionIdentifier' => $this->transactionIdentifier,
         ];
     }
 }

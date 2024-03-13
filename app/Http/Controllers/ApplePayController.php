@@ -276,7 +276,6 @@ class ApplePayController extends Controller
 
         $appleId = 'merchant.placetopay-test';
 // payment token data received from Apple Pay
-        $paymentData = json_encode($request->all());
 // how many seconds should the token be valid since the creation time.
 
         $expirationTime = 315360000; // It should be changed in production to a reasonable value (a couple of minutes)
@@ -284,7 +283,7 @@ class ApplePayController extends Controller
         $applePayDecodingServiceFactory = new ApplePayDecodingServiceFactory();
         $applePayDecodingService = $applePayDecodingServiceFactory->make();
         $applePayValidator = new ApplePayValidator();
-        $paymentData = json_decode($paymentData, true);
+        $paymentData = $request->all();
         try {
             $applePayValidator->validatePaymentDataStructure($paymentData);
             $decodedToken = $applePayDecodingService->decode($privateKey, $appleId, $paymentData, $rootCertificatePath, $expirationTime);
