@@ -34,6 +34,7 @@ return [
         'merchantId' => env('APPLE_PAY_MERCHANT_ID', 'merchant.placetopay-test'),
         'domainName' => env('APPLE_PAY_DOMAIN_NAME', 'applepay-e9tjn.ondigitalocean.app'),
         'displayName' => env('APPLE_PAY_DISPLAY_NAME','Test Placetopay'),
-        'ssl_key_password' => env('APPLE_PAY_SSL_KEY_PASSWORD', 'Admin123')
+        'ssl_key_password' => env('APPLE_PAY_SSL_KEY_PASSWORD', 'Admin123'),
+        'private_key' => env('APPLE_PAY_PRIVATE_KEY', 'MHcCAQEEIAbgRQC9lID5Fh7Hq0HRDiVBleN4exTkkiVNR2yPRBgmoAoGCCqGSM49AwEHoUQDQgAEI7cXhwfAsi/voXyNslttP8ujgXKRctOfZi4WPUKOudny9UcDRl2ePrx5qxL4x4ETt0MoZqs6wj3tlx4ZkYfc6g==')
     ]
 ];
