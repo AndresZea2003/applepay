@@ -5,6 +5,7 @@ namespace App\Domain\ApplePay\ApplePayLib\tests\Feature;
 use App\Domain\ApplePay\ApplePayLib\Decode\Decoder;
 use App\Domain\ApplePay\ApplePayLib\Message\Request\DecodeRequest;
 use App\Domain\ApplePay\ApplePayLib\Message\Response\DecodeResponse;
+use phpseclib3\File\X509;
 use Tests\TestCase;
 
 class DecodeTest extends TestCase
@@ -30,8 +31,8 @@ class DecodeTest extends TestCase
             'transactionIdentifier' => '9564344f17439072c1b02d4c5e9e31ef09d14b24529074d15d0f62091b035949'
         ];
 
-
-        $response = Decoder::make(DecodeRequest::fromArray($data))->decrypt();
+        $content =  file_get_contents(storage_path('app/certificados/AppleRootCA-G3.cer'));
+        $response = Decoder::make(DecodeRequest::fromArray($data), $content)->decrypt();
         $this->assertInstanceOf(DecodeResponse::class, $response);
     }
 }

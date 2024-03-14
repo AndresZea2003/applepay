@@ -26,6 +26,8 @@ class ApplePayV1Controller extends Controller
     {
         //PROCESS -> isExternalWallet type applepay -> information -> 3DS|process
 
-        return $applePayServices->decode($request->token())->toArray();
+        $content =  file_get_contents(storage_path('app/certificados/AppleRootCA-G3.cer'));
+
+        return $applePayServices->decode($request->token(), $content)->toArray();
     }
 }

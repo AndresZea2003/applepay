@@ -4,6 +4,7 @@ namespace App\Domain\ApplePay\Services;
 
 use App\Domain\ApplePay\ApplePayLib\Contracts\ApplePayApi;
 use App\Domain\ApplePay\ApplePayLib\Decode\Decoder;
+use App\Domain\ApplePay\ApplePayLib\Exceptions\DecodingFailedException;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\ServicesException;
 use App\Domain\ApplePay\ApplePayLib\Message\Request\DecodeRequest;
 use App\Domain\ApplePay\ApplePayLib\Message\Request\ValidationUrlRequest;
@@ -31,9 +32,12 @@ readonly class ApplePayServices
         return $this->client->validationUrl(ValidationUrlRequest::fromArray($data));
     }
 
-    public function decode(array $token): DecodeResponse
+    /**
+     * @throws DecodingFailedException
+     */
+    public function decode(array $token, string $rootCACertificateContent): DecodeResponse
     {
-        return Decoder::make(DecodeRequest::fromArray($token))->decrypt();
+        return Decoder::make(DecodeRequest::fromArray($token), $rootCACertificateContent)->decrypt();
     }
 
 }
