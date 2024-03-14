@@ -22,17 +22,24 @@ readonly class Decoder
     }
 
     /**
-     * @throws RuntimeException
+     * @throws DecodingFailedException
      */
     public function decrypt(): DecodeResponse
     {
         /**
          * Step 1
-         * -> Ensure that the certificates contain the correct custom OIDs: ✅
+         * ✅ -->  Ensure that the certificates contain the correct custom OIDs
+         * 🛠 --> Ensure that the root CA is the Apple Root CA - G3. This certificate is available from
+         * --> Ensure that there’s a valid X.509 chain of trust from the signature to the root CA. Specifically,
+         *     ensure that the signature was created using the private key that corresponds to the leaf certificate,
+         * --> Validate the token’s signature. For ECC (EC_v1), ensure that the signature is a valid Ellyptical Curve Digital
+         *      Signature Algorithm (ECDSA)
+         * --> Inspect the Cryptographic Message Syntax (CMS) signing time of the signature,
+         *      as defined by section 11.3 of RFC 5652.
          */
         try {
-            $this->validate();
-        } catch (\Exception $e) {
+            PKCS7SignatureValidator::make($this->request->paymentData->signature)->validate();
+        } catch (\RuntimeException $e) {
             throw new DecodingFailedException($e->getMessage(), $e->getCode(), $e);
         }
 
@@ -42,37 +49,4 @@ readonly class Decoder
             'token' => $this->request->toArray()
         ]);
     }
-
-    /**
-     * @throws RuntimeException
-     */
-    private function validate(): void
-    {
-        $signature = $this->request->paymentData->signature;
-        $data = "-----BEGIN CERTIFICATE-----\n$signature\n-----END CERTIFICATE-----";
-        $certificates = [];
-        @openssl_pkcs7_read($data, $certificates);
-
-        $this->checkIfCertificateContainOID($certificates[0], SignatureOIDEnum::LEAF_CERTIFICATE_OID);
-        $this->checkIfCertificateContainOID($certificates[1], SignatureOIDEnum::INTERMEDIATE_CERTIFICATE_OID);
-    }
-
-    /**
-     * @throws RuntimeException
-     */
-    private function checkIfCertificateContainOID(string $certificate, SignatureOIDEnum $oid): void
-    {
-        $certificateResource = @openssl_x509_read($certificate);
-
-        if(empty($certificateResource)) {
-            throw new \RuntimeException("Can't load x509 certificate");
-        }
-
-        $certificateData = openssl_x509_parse($certificateResource, false);
-
-         if (!isset($certificateData['extensions'][$oid->value])) {
-             throw new \RuntimeException('Missing OID ' . $oid->value . ' from certificate');
-         }
-    }
-
 }
