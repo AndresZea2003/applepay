@@ -25,6 +25,7 @@ class ApplePayV1Controller extends Controller
     public function decode(DecodeRequest $request, ApplePayServices $applePayServices): array
     {
         //PROCESS -> isExternalWallet type applepay -> information -> 3DS|process
+
         return $applePayServices->decode($request->token())->toArray();
     }
 }

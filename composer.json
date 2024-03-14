@@ -7,11 +7,13 @@
     "require": {
         "php": "^8.2",
         "ext-curl": "*",
+        "ext-openssl": "*",
         "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "payu/apple-pay": "^1.3.0",
+        "phpseclib/phpseclib": "~3.0",
         "symfony/options-resolver": "^7.0"
     },
     "require-dev": {

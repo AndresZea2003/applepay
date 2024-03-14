@@ -2,71 +2,77 @@
 
 namespace App\Domain\ApplePay\ApplePayLib\Decode;
 
+
+use App\Domain\ApplePay\ApplePayLib\Enums\SignatureOIDEnum;
+use App\Domain\ApplePay\ApplePayLib\Exceptions\DecodingFailedException;
 use App\Domain\ApplePay\ApplePayLib\Message\Request\DecodeRequest;
 use App\Domain\ApplePay\ApplePayLib\Message\Response\DecodeResponse;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
+use RuntimeException;
 
-class Decoder
+readonly class Decoder
 {
-    public static function make(DecodeRequest $request): DecodeResponse
+    public function __construct(private DecodeRequest $request)
     {
-        // TODO decode...
+        //
+    }
 
-        //obtener llave privada -> ecckey.key -> leer y obtener el contenido
- /*       Get AppleRootCA-G3.pem:
-
-        Download AppleRootCA-G3.cer
-        Run command: openssl x509 -inform der -in storage/app/AppleRootCA-G3.cer -out AppleRootCA-G3.pem*/
-
-        $signature = base64_decode($request->paymentData->signature);
-
-        if(empty($signature)) {
-            throw new \RuntimeException('Signature is not a valid base64 value');
-        }
-
-        $file = tmpfile();
-        fwrite($file, $signature);
-        $fileMetadata = stream_get_meta_data($file);
-
-        $certificatePath =  $fileMetadata['uri'];
-        $getCertificatesCommand = ['openssl', 'pkcs7', '-inform', 'DER', '-in', $certificatePath, '-print_certs'];
-
-        try {
-            $process = new Process($getCertificatesCommand);
-            $process->mustRun();
-
-            $commandOutput = $process->getOutput();
-        } catch (ProcessFailedException $e) {
-            throw new \RuntimeException("Can't get certificates", 0, $e);
-        }
-
-        $certificates = str_replace("\n\n", "\n", rtrim($commandOutput));
-        $certificates = str_replace("-----END CERTIFICATE-----\n", "-----END CERTIFICATE-----\n\n", $certificates);
-
-
-
-        dd($certificates);
-       // return $this->normalisePrintCerts(rtrim($commandOutput));
-
-
-        return DecodeResponse::fromArray([
-            'token' => $request->toArray()
-        ]);
-
+    public static function make(DecodeRequest $request): self
+    {
+        return new self($request);
     }
 
     /**
-     * @param array $command
-     * @return string
-     * @throws ProcessFailedException
+     * @throws RuntimeException
      */
-    private function runCommand(array $command)
+    public function decrypt(): DecodeResponse
     {
-        $process = new Process($command);
-        $process->mustRun();
+        /**
+         * Step 1
+         * -> Ensure that the certificates contain the correct custom OIDs: ✅
+         */
+        try {
+            $this->validate();
+        } catch (\Exception $e) {
+            throw new DecodingFailedException($e->getMessage(), $e->getCode(), $e);
+        }
 
-        return $process->getOutput();
+        // TODO decode...
+
+        return DecodeResponse::fromArray([
+            'token' => $this->request->toArray()
+        ]);
+    }
+
+    /**
+     * @throws RuntimeException
+     */
+    private function validate(): void
+    {
+        $signature = $this->request->paymentData->signature;
+        $data = "-----BEGIN CERTIFICATE-----\n$signature\n-----END CERTIFICATE-----";
+        $certificates = [];
+        @openssl_pkcs7_read($data, $certificates);
+
+        $this->checkIfCertificateContainOID($certificates[0], SignatureOIDEnum::LEAF_CERTIFICATE_OID);
+        $this->checkIfCertificateContainOID($certificates[1], SignatureOIDEnum::INTERMEDIATE_CERTIFICATE_OID);
+    }
+
+    /**
+     * @throws RuntimeException
+     */
+    private function checkIfCertificateContainOID(string $certificate, SignatureOIDEnum $oid): void
+    {
+        $certificateResource = @openssl_x509_read($certificate);
+
+        if(empty($certificateResource)) {
+            throw new \RuntimeException("Can't load x509 certificate");
+        }
+
+        $certificateData = openssl_x509_parse($certificateResource, false);
+
+         if (!isset($certificateData['extensions'][$oid->value])) {
+             throw new \RuntimeException('Missing OID ' . $oid->value . ' from certificate');
+         }
     }
 
 }

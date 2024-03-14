@@ -31,7 +31,7 @@ class DecodeTest extends TestCase
         ];
 
 
-        $response = Decoder::make(DecodeRequest::fromArray($data));
+        $response = Decoder::make(DecodeRequest::fromArray($data))->decrypt();
         $this->assertInstanceOf(DecodeResponse::class, $response);
     }
 }

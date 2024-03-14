@@ -33,7 +33,7 @@ readonly class ApplePayServices
 
     public function decode(array $token): DecodeResponse
     {
-        return Decoder::make(DecodeRequest::fromArray($token));
+        return Decoder::make(DecodeRequest::fromArray($token))->decrypt();
     }
 
 }
