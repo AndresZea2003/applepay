@@ -73,7 +73,7 @@ class CertificatesServices
             $response = $this->checkChainX509($leafCertificates, $intermediateCertificate)->validateSignature();
         }catch (\Exception $e){
             throw new \RuntimeException(
-                "The leaf certificate is not valid or is not signed by the intermediate CA.\n",
+                "The leaf certificate is not signed by the intermediate CA.\n",
                 0,
                 $e
             );
@@ -108,11 +108,11 @@ class CertificatesServices
         }
     }
 
-    private function checkChainX509(string $baseCertificate, string $chainCertificate): X509
+    private function checkChainX509(string $baseCertificate, string $signerCertificate): X509
     {
         $x509 = new X509();
         $x509->loadX509($baseCertificate);
-        $x509->loadCA($chainCertificate);
+        $x509->loadCA($signerCertificate);
 
         return $x509;
 
