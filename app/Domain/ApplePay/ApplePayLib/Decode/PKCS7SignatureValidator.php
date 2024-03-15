@@ -15,7 +15,7 @@ class PKCS7SignatureValidator
 
     public function __construct(string $signature, private readonly string $rootCACertificateContent)
     {
-        $data = "-----BEGIN CERTIFICATE-----\n$signature\n-----END CERTIFICATE-----";
+        $data = "-----BEGIN CERTIFICATE-----\n$signature\n-----END CERTIFICATE-----\n";
         $this->certificatesService =  CertificatesServices::make();
         $this->certificates = $this->certificatesService->getCertificatesFromSignature($data);
     }
