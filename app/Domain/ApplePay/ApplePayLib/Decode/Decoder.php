@@ -46,14 +46,9 @@ readonly class Decoder
          * --> ✅ 1d. Validate the token’s signature. For ECC (EC_v1), ensure that the signature is a valid Ellyptical Curve Digital
          *      Signature Algorithm (ECDSA);
          *
-         * --> 1e.Inspect the Cryptographic Message Syntax (CMS) signing time of the signature,
+         * --> ✅ 1e.Inspect the Cryptographic Message Syntax (CMS) signing time of the signature,
          *      as defined by section 11.3 of RFC 5652.
          */
-
-        $data = PKCS7SignatureValidatorData::fromArray([
-            'paymentData' => $this->request->paymentData->toArray(),
-            'rootCACertificateContent' => $this->rootCACertificateContent
-        ]);
 
         $paymentData = $this->request->paymentData;
         $rootCACertificateContent = $this->rootCACertificateContent;

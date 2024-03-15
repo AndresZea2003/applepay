@@ -70,9 +70,7 @@ class PKCS7SignatureValidator
     private function validateTime($signature, $signatureExpirationTime): bool
     {
         $asn =  Asn1Services::make($signature);
-
         $signingTime = $asn->getSigningTime();
-
         $secondsElapsedSinceSigning = time() - strtotime($signingTime);
 
         return $secondsElapsedSinceSigning <= $signatureExpirationTime;
