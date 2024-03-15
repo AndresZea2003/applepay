@@ -31,7 +31,7 @@ class DecodeTest extends TestCase
             'transactionIdentifier' => '9564344f17439072c1b02d4c5e9e31ef09d14b24529074d15d0f62091b035949'
         ];
 
-        $content =  file_get_contents(storage_path('app/certificados/AppleRootCA-G3.cer'));
+        $content =  file_get_contents(base_path('/AppleRootCA-G3.cer'));
         $response = Decoder::make(DecodeRequest::fromArray($data), $content)->decrypt();
         $this->assertInstanceOf(DecodeResponse::class, $response);
     }
