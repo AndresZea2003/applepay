@@ -32,7 +32,8 @@ class DecodeTest extends TestCase
         ];
 
         $content =  file_get_contents(base_path('/AppleRootCA-G3.cer'));
-        $response = Decoder::make(DecodeRequest::fromArray($data), $content)->decrypt();
+        $expirationTime = 315360000;
+        $response = Decoder::make(DecodeRequest::fromArray($data), $content, $expirationTime)->decrypt();
         $this->assertInstanceOf(DecodeResponse::class, $response);
     }
 }

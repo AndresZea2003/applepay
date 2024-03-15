@@ -35,9 +35,9 @@ readonly class ApplePayServices
     /**
      * @throws DecodingFailedException
      */
-    public function decode(array $token, string $rootCACertificateContent): DecodeResponse
+    public function decode(array $token, string $rootCACertificateContent, int $expirationTime): DecodeResponse
     {
-        return Decoder::make(DecodeRequest::fromArray($token), $rootCACertificateContent)->decrypt();
+        return Decoder::make(DecodeRequest::fromArray($token), $rootCACertificateContent, $expirationTime)->decrypt();
     }
 
 }

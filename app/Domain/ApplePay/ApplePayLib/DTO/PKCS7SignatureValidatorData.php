@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Domain\ApplePay\ApplePayLib\Message\Request;
+namespace App\Domain\ApplePay\ApplePayLib\DTO;
 
-use App\Domain\ApplePay\ApplePayLib\Contracts\Arrayable;
 use App\Domain\ApplePay\ApplePayLib\DTO\Decode\PaymentData;
-use App\Domain\ApplePay\ApplePayLib\DTO\Decode\PaymentMethod;
 
-class DecodeRequest implements Arrayable
+class PKCS7SignatureValidatorData
 {
     public function __construct(
         public PaymentData $paymentData,
+        public string $rootCACertificateContent
     )
     {
         //
@@ -19,13 +18,7 @@ class DecodeRequest implements Arrayable
     {
         return new self(
             paymentData: $data['paymentData'] ? PaymentData::fromArray($data['paymentData']) : null,
+            rootCACertificateContent: $data['rootCACertificateContent'] ?? null,
         );
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'paymentData' => $this->paymentData->toArray(),
-        ];
     }
 }

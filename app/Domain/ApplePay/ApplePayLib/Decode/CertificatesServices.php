@@ -5,6 +5,7 @@ namespace App\Domain\ApplePay\ApplePayLib\Decode;
 use App\Domain\ApplePay\ApplePayLib\Enums\SignatureOIDEnum;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\CheckIntermediateCACertificateException;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\CheckSignatureLeafIntermediateException;
+use App\Domain\ApplePay\ApplePayLib\Exceptions\SignatureException;
 use phpseclib3\File\X509;
 use RuntimeException;
 
@@ -24,8 +25,9 @@ class CertificatesServices
 
     public function getCertificatesFromSignature(string $signature): array
     {
+        $data = "-----BEGIN CERTIFICATE-----\n$signature\n-----END CERTIFICATE-----\n";
         $certificates = [];
-        @openssl_pkcs7_read($signature, $certificates);
+        @openssl_pkcs7_read($data, $certificates);
 
        return $certificates;
     }
@@ -116,6 +118,24 @@ class CertificatesServices
 
         return $x509;
 
+    }
+
+    /**
+     * @throws SignatureException
+     */
+    public function verifySignature(string $signedAttributes, string $signature, $publicKey): string
+    {
+        $verifyResult = openssl_verify($signedAttributes, $signature, $publicKey, OPENSSL_ALGO_SHA256);
+
+        if ($verifyResult === 1) {
+            return true;
+        }
+
+        if ($verifyResult === -1) {
+            throw new SignatureException(openssl_error_string());
+        }
+
+        throw new SignatureException('Invalid signature');
     }
 
 }

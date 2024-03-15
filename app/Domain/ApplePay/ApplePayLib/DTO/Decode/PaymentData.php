@@ -36,4 +36,5 @@ class PaymentData implements Arrayable
             'version' => $this->version
         ];
     }
+
 }

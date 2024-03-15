@@ -3,6 +3,7 @@
 namespace App\Domain\ApplePay\ApplePayLib\Decode;
 
 
+use App\Domain\ApplePay\ApplePayLib\DTO\PKCS7SignatureValidatorData;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\CheckIntermediateCACertificateException;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\CheckSignatureLeafIntermediateException;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\DecodingFailedException;
@@ -12,21 +13,23 @@ use RuntimeException;
 
 readonly class Decoder
 {
-    public function __construct(private DecodeRequest $request, private string $rootCACertificateContent)
+    public function __construct(
+        private DecodeRequest $request,
+        private string $rootCACertificateContent,
+        private int $expirationTime,
+    )
     {
         //
     }
 
-    public static function make(DecodeRequest $request, string $rootCACertificateContent): self
+    public static function make(DecodeRequest $request, string $rootCACertificateContent, int $expirationTime): self
     {
-        return new self($request, $rootCACertificateContent);
+        return new self($request, $rootCACertificateContent, $expirationTime);
     }
 
     /**
      * @return DecodeResponse
      * @throws DecodingFailedException
-     * @throws CheckIntermediateCACertificateException
-     * @throws CheckSignatureLeafIntermediateException
      */
     public function decrypt(): DecodeResponse
     {
@@ -40,21 +43,29 @@ readonly class Decoder
          *     to the leaf certificate, that the leaf certificate is signed by the intermediate CA,
          *     and that the intermediate CA is signed by the Apple Root CA - G3.
          *
-         * --> 1d. Validate the token’s signature. For ECC (EC_v1), ensure that the signature is a valid Ellyptical Curve Digital
+         * --> ✅ 1d. Validate the token’s signature. For ECC (EC_v1), ensure that the signature is a valid Ellyptical Curve Digital
          *      Signature Algorithm (ECDSA);
          *
          * --> 1e.Inspect the Cryptographic Message Syntax (CMS) signing time of the signature,
          *      as defined by section 11.3 of RFC 5652.
          */
-        $signature =  $this->request->paymentData->signature;
+
+        $data = PKCS7SignatureValidatorData::fromArray([
+            'paymentData' => $this->request->paymentData->toArray(),
+            'rootCACertificateContent' => $this->rootCACertificateContent
+        ]);
+
+        $paymentData = $this->request->paymentData;
+        $rootCACertificateContent = $this->rootCACertificateContent;
+        $expirationTime = $this->expirationTime;
+
         try {
-            PKCS7SignatureValidator::make($signature, $this->rootCACertificateContent)->validate();
-        } catch (\RuntimeException $e) {
+            PKCS7SignatureValidator::make($paymentData, $rootCACertificateContent, $expirationTime)->validate();
+        } catch (\Exception $e) {
             throw new DecodingFailedException($e->getMessage(), $e->getCode(), $e);
         }
 
         // TODO decode...
-
         return DecodeResponse::fromArray([
             'token' => $this->request->toArray()
         ]);
