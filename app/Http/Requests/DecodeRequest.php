@@ -44,8 +44,8 @@ class DecodeRequest extends FormRequest
         ];
     }
 
-    public function token(): array
+    public function paymentData(): array
     {
-        return $this->input('instrument.externalWallet.additional');
+        return $this->input('instrument.externalWallet.additional.paymentData');
     }
 }

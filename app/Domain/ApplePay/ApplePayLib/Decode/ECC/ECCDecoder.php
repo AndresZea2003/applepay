@@ -33,7 +33,7 @@ Readonly class ECCDecoder
     public function decode(): string
     {
         try {
-            $sharedSecret =  ECCAlgorithm::getSecret($this->privateKey, $this->paymentData->header->ephemeralPublicKey);
+            $sharedSecret = ECCAlgorithm::getSecret($this->privateKey, $this->paymentData->header->ephemeralPublicKey);
             $kdfInfo = $this->getKdfInfo($this->merchantId);
             $symmetricKey = ECCAlgorithm::getSymmetricKey($kdfInfo, $sharedSecret);
 
