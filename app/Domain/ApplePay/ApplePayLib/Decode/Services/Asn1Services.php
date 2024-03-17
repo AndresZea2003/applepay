@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\ApplePay\ApplePayLib\Decode;
+namespace App\Domain\ApplePay\ApplePayLib\Decode\Services;
 
 use phpseclib3\File\ASN1;
 use phpseclib3\Math\BigInteger;
@@ -56,7 +56,7 @@ class Asn1Services
         return $signedAttr;
     }
 
-    public function getSignature()
+    public function getSignature(): string
     {
         return $this->asn1[0]['content'][1]['content'][0]['content'][4]['content'][0]['content'][5]['content'];
     }

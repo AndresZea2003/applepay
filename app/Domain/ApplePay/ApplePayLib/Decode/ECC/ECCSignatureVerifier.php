@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Domain\ApplePay\ApplePayLib\Decode;
+namespace App\Domain\ApplePay\ApplePayLib\Decode\ECC;
 
+use App\Domain\ApplePay\ApplePayLib\Decode\Services\Asn1Services;
+use App\Domain\ApplePay\ApplePayLib\Decode\Services\CertificatesServices;
 use App\Domain\ApplePay\ApplePayLib\DTO\Decode\PaymentData;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\SignatureException;
 
-class EccSignatureVerifier
+class ECCSignatureVerifier
 {
     public function __construct(public PaymentData $paymentData)
     {
@@ -37,7 +39,7 @@ class EccSignatureVerifier
     {
         $ephemeralPublicKey =  base64_decode($this->paymentData->header->ephemeralPublicKey);
         $data = base64_decode($this->paymentData->data);
-        $transactionId  =  hex2bin($this->paymentData->header->transactionId);
+        $transactionId = hex2bin($this->paymentData->header->transactionId);
 
          return $ephemeralPublicKey . $data . $transactionId;
     }

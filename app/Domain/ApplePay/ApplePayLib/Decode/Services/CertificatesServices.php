@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\ApplePay\ApplePayLib\Decode;
+namespace App\Domain\ApplePay\ApplePayLib\Decode\Services;
 
 use App\Domain\ApplePay\ApplePayLib\Enums\SignatureOIDEnum;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\CheckIntermediateCACertificateException;

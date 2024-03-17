@@ -193,6 +193,7 @@ function onApplePayButtonClicked() {
 
         axios.post(urlBase, $data) // Asegúrate de devolver la promesa aquí
             .then((response) => {
+                token.value = response.data
                 console.log(response.data);
                 console.log('EXITO')
                 //PASO 10

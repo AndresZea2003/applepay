@@ -2,8 +2,10 @@
 
 namespace App\Domain\ApplePay\ApplePayLib\Decode;
 
+use App\Domain\ApplePay\ApplePayLib\Decode\ECC\ECCSignatureVerifier;
+use App\Domain\ApplePay\ApplePayLib\Decode\Services\Asn1Services;
+use App\Domain\ApplePay\ApplePayLib\Decode\Services\CertificatesServices;
 use App\Domain\ApplePay\ApplePayLib\DTO\Decode\PaymentData;
-use App\Domain\ApplePay\ApplePayLib\DTO\PKCS7SignatureValidatorData;
 use App\Domain\ApplePay\ApplePayLib\Enums\SignatureOIDEnum;
 use App\Domain\ApplePay\ApplePayLib\Enums\SignatureVersion;
 use App\Domain\ApplePay\ApplePayLib\Exceptions\CheckIntermediateCACertificateException;
@@ -54,12 +56,12 @@ class PKCS7SignatureValidator
         // 1.c.✅ Ensure that there is a valid X.509 chain of trust from the signature to the root CA. Specifically, ensure that the signature was created using the private key corresponding to the leaf certificate, that the leaf certificate is signed by the intermediate CA, and that the intermediate CA is signed by the Apple Root CA - G3.
         $this->certificatesService->validateChainOfTrust($certificates, $this->rootCACertificateContent);
 
-        // 1.d ✅ For ECC (EC_v1), ensure that the signature is a valid ECDSA signature (ecdsa-with-SHA256 1.2.840.10045.4.3.2) of the concatenated values of the ephemeralPublicKey, data, transactionId, and applicationData keys.
         if(! SignatureVersion::tryFrom($this->paymentData->version)){
             throw new \RuntimeException('Unsupported type ' . $this->paymentData->version);
         }
 
-        EccSignatureVerifier::make($this->paymentData)->verifier();
+        // 1.d ✅ For ECC (EC_v1), ensure that the signature is a valid ECDSA signature (ecdsa-with-SHA256 1.2.840.10045.4.3.2) of the concatenated values of the ephemeralPublicKey, data, transactionId, and applicationData keys.
+        ECCSignatureVerifier::make($this->paymentData)->verifier();
 
         //✅ 1.e Inspect the CMS signing time of the signature, as defined by section 11.3 of RFC 5652. If the time signature and the transaction time differ by more than a few minutes, it's possible that the token is a replay attack.
         if (! $this->validateTime($this->paymentData->signature, $this->signatureExpirationTime)) {
@@ -69,9 +71,8 @@ class PKCS7SignatureValidator
 
     private function validateTime($signature, $signatureExpirationTime): bool
     {
-        $asn =  Asn1Services::make($signature);
-        $signingTime = $asn->getSigningTime();
-        $secondsElapsedSinceSigning = time() - strtotime($signingTime);
+        $getSigningTime = Asn1Services::make($signature)->getSigningTime();
+        $secondsElapsedSinceSigning = time() - strtotime($getSigningTime);
 
         return $secondsElapsedSinceSigning <= $signatureExpirationTime;
     }

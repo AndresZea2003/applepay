@@ -35,9 +35,17 @@ readonly class ApplePayServices
     /**
      * @throws DecodingFailedException
      */
-    public function decode(array $token, string $rootCACertificateContent, int $expirationTime): DecodeResponse
+    public function decode(array $token): DecodeResponse
     {
-        return Decoder::make(DecodeRequest::fromArray($token), $rootCACertificateContent, $expirationTime)->decrypt();
+        $data = [
+            'paymentData' => $token,
+            'rootCACertificateContent' => file_get_contents(base_path('/AppleRootCA-G3.cer')),
+            'expirationTime' => config('services.apple_pay.expiration_time'),
+            'privateKey' => config('services.apple_pay.private_key'),
+            'merchantId' =>  config('services.apple_pay.merchantId'),
+        ];
+
+        return Decoder::make(DecodeRequest::fromArray($data))->decode();
     }
 
 }

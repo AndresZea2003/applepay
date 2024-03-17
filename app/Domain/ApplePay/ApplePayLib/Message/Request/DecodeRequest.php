@@ -10,6 +10,10 @@ class DecodeRequest implements Arrayable
 {
     public function __construct(
         public PaymentData $paymentData,
+        public string $rootCACertificateContent,
+        public int $expirationTime,
+        public string $privateKey,
+        public string $merchantId
     )
     {
         //
@@ -19,6 +23,10 @@ class DecodeRequest implements Arrayable
     {
         return new self(
             paymentData: $data['paymentData'] ? PaymentData::fromArray($data['paymentData']) : null,
+            rootCACertificateContent: $data['rootCACertificateContent'],
+            expirationTime: $data['expirationTime'],
+            privateKey: $data['privateKey'],
+            merchantId: $data['merchantId'],
         );
     }
 
@@ -26,6 +34,10 @@ class DecodeRequest implements Arrayable
     {
         return [
             'paymentData' => $this->paymentData->toArray(),
+            'rootCACertificateContent' => $this->rootCACertificateContent,
+            'expirationTime' => $this->expirationTime,
+            'privateKey' => $this->privateKey,
+            'merchantId' => $this->merchantId
         ];
     }
 }
